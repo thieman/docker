@@ -136,7 +136,7 @@ func (daemon *Daemon) Containers(config *ContainersConfig) ([]*types.Container, 
 
 		img, err := daemon.Repositories().LookupImage(container.Config.Image)
 		if err != nil {
-			return nil, err
+			return err
 		}
 		if container.ImageID == img.ID {
 			newC.Image = container.Config.Image
