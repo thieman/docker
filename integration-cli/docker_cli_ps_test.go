@@ -666,3 +666,51 @@ func (s *DockerSuite) TestPsGroupPortRange(c *check.C) {
 	}
 
 }
+
+// Test for GitHub issue #12595
+func (s *DockerSuite) TestPsImageIDAfterUpdate(c *check.C) {
+
+	runCmd := exec.Command(dockerBinary, "tag", "busybox:TestPsImageIDAfterUpdate-original", "busybox:latest")
+	out, _, err := runCommandWithOutput(runCmd)
+	if err != nil {
+		c.Fatal(out, err)
+	}
+	originalImageID := strings.TrimSpace(out)
+
+	runCmd := exec.Command(dockerBinary, "run", "-d", "busybox:TestPsImageIDAfterUpdate-original", "top")
+	out, _, err := runCommandWithOutput(runCmd)
+	if err != nil {
+		c.Fatal(out, err)
+	}
+	containerID := strings.TrimSpace(out)
+
+	runCmd := exec.Command(dockerBinary, "commit", containerID, "busybox:TestPsImageIDAfterUpdate-changed")
+	out, _, err := runCommandWithOutput(runCmd)
+	if err != nil {
+		c.Fatal(out, err)
+	}
+
+	runCmd := exec.Command(dockerBinary, "tag", "-f", "busybox:TestPsImageIDAfterUpdate-original", "busybox:TestPsImageIDAfterUpdate-changed")
+	out, _, err := runCommandWithOutput(runCmd)
+	if err != nil {
+		c.Fatal(out, err)
+	}
+
+	out, err := exec.Command(dockerBinary, "ps").CombinedOutput()
+	if err != nil {
+		c.Fatalf("Failed to run 'ps': %s, out: %q", err, out)
+	}
+	lines := strings.Split(strings.TrimSpace(string(out)), "\n")
+	// skip header
+	lines = lines[1:]
+	if len(lines) != 1 {
+		c.Fatalf("There should be 1 running container, got %d", len(lines))
+	}
+	for _, line := range lines {
+		f := strings.Fields(line)
+		if f[1] != originalImageID {
+			c.Fatalf("Expected %s IMAGE, got %s", originalImageID, f[1])
+		}
+	}
+
+}
