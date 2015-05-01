@@ -677,26 +677,26 @@ func (s *DockerSuite) TestPsImageIDAfterUpdate(c *check.C) {
 	}
 	originalImageID := strings.TrimSpace(out)
 
-	runCmd := exec.Command(dockerBinary, "run", "-d", "busybox:TestPsImageIDAfterUpdate-original", "top")
-	out, _, err := runCommandWithOutput(runCmd)
+	runCmd = exec.Command(dockerBinary, "run", "-d", "busybox:TestPsImageIDAfterUpdate-original", "top")
+	out, _, err = runCommandWithOutput(runCmd)
 	if err != nil {
 		c.Fatal(out, err)
 	}
 	containerID := strings.TrimSpace(out)
 
-	runCmd := exec.Command(dockerBinary, "commit", containerID, "busybox:TestPsImageIDAfterUpdate-changed")
-	out, _, err := runCommandWithOutput(runCmd)
+	runCmd = exec.Command(dockerBinary, "commit", containerID, "busybox:TestPsImageIDAfterUpdate-changed")
+	out, _, err = runCommandWithOutput(runCmd)
 	if err != nil {
 		c.Fatal(out, err)
 	}
 
-	runCmd := exec.Command(dockerBinary, "tag", "-f", "busybox:TestPsImageIDAfterUpdate-original", "busybox:TestPsImageIDAfterUpdate-changed")
-	out, _, err := runCommandWithOutput(runCmd)
+	runCmd = exec.Command(dockerBinary, "tag", "-f", "busybox:TestPsImageIDAfterUpdate-original", "busybox:TestPsImageIDAfterUpdate-changed")
+	out, _, err = runCommandWithOutput(runCmd)
 	if err != nil {
 		c.Fatal(out, err)
 	}
 
-	out, err := exec.Command(dockerBinary, "ps").CombinedOutput()
+	out, err = exec.Command(dockerBinary, "ps").CombinedOutput()
 	if err != nil {
 		c.Fatalf("Failed to run 'ps': %s, out: %q", err, out)
 	}
