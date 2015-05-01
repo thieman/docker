@@ -676,8 +676,8 @@ func (s *DockerSuite) TestPsImageIDAfterUpdate(c *check.C) {
 		c.Fatal(out, err)
 	}
 
-	runCmd := exec.Command(dockerBinary, "inspect", "-f", "{{ .Id }}", "busybox:TestPsImageIDAfterUpdate-original")
-	out, _, err := runCommandWithOutput(runCmd)
+	runCmd = exec.Command(dockerBinary, "inspect", "-f", "{{ .Id }}", "busybox:TestPsImageIDAfterUpdate-original")
+	out, _, err = runCommandWithOutput(runCmd)
 	if err != nil {
 		c.Fatal(out, err)
 	}
