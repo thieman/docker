@@ -34,7 +34,7 @@ type DockerSuite struct {
 
 func (s *DockerSuite) TearDownTest(c *check.C) {
 	fmt.Printf("Deleting containers\n")
-	containers, err := getAllContainers()
+	containers, _ := getAllContainers()
 	fmt.Printf("%v\n", containers)
 	deleteAllContainers()
 	deleteAllImages()
