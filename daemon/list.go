@@ -141,7 +141,7 @@ func (daemon *Daemon) Containers(config *ContainersConfig) ([]*types.Container, 
 		if container.ImageID == img.ID {
 			newC.Image = container.Config.Image
 		} else {
-			newC.Image = img.ID
+			newC.Image = container.ImageID
 		}
 
 		if len(container.Args) > 0 {
