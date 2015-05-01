@@ -134,14 +134,18 @@ func (daemon *Daemon) Containers(config *ContainersConfig) ([]*types.Container, 
 			Names: names[container.ID],
 		}
 
-		img, err := daemon.Repositories().LookupImage(container.Config.Image)
-		if err != nil {
-			return err
-		}
-		if container.ImageID == img.ID {
-			newC.Image = container.Config.Image
-		} else {
+		if container.Config.Image == "" {
 			newC.Image = container.ImageID
+		} else {
+			img, err := daemon.Repositories().LookupImage(container.Config.Image)
+			if err != nil {
+				return err
+			}
+			if container.ImageID == img.ID {
+				newC.Image = container.Config.Image
+			} else {
+				newC.Image = container.ImageID
+			}
 		}
 
 		if len(container.Args) > 0 {

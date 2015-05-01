@@ -129,7 +129,6 @@ func (store *TagStore) reload() error {
 func (store *TagStore) LookupImage(name string) (*image.Image, error) {
 	// FIXME: standardize on returning nil when the image doesn't exist, and err for everything else
 	// (so we can pass all errors here)
-	fmt.Printf("ONE\n")
 	repoName, ref := parsers.ParseRepositoryTag(name)
 	if ref == "" {
 		ref = DEFAULTTAG
@@ -139,7 +138,6 @@ func (store *TagStore) LookupImage(name string) (*image.Image, error) {
 		img *image.Image
 	)
 
-	fmt.Printf("TWO\n")
 	img, err = store.GetImage(repoName, ref)
 	if err != nil {
 		return nil, err
