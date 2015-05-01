@@ -677,7 +677,7 @@ func (s *DockerSuite) TestPsImageIDAfterUpdate(c *check.C) {
 	}
 	originalImageID := strings.TrimSpace(out)
 
-	runCmd = exec.Command(dockerBinary, "run", "busybox:TestPsImageIDAfterUpdate-original", "touch newfile")
+	runCmd = exec.Command(dockerBinary, "run", "-d", "busybox:TestPsImageIDAfterUpdate-original", "top")
 	out, _, err = runCommandWithOutput(runCmd)
 	if err != nil {
 		c.Fatal(out, err)
