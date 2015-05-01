@@ -696,11 +696,11 @@ func (s *DockerSuite) TestPsImageIDAfterUpdate(c *check.C) {
 		c.Fatal(out, err)
 	}
 
-	out, err = exec.Command(dockerBinary, "ps").CombinedOutput()
+	linesOut, err := exec.Command(dockerBinary, "ps").CombinedOutput()
 	if err != nil {
 		c.Fatalf("Failed to run 'ps': %s, out: %q", err, out)
 	}
-	lines := strings.Split(strings.TrimSpace(string(out)), "\n")
+	lines := strings.Split(strings.TrimSpace(string(linesOut)), "\n")
 	// skip header
 	lines = lines[1:]
 	if len(lines) != 1 {
