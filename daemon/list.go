@@ -3,7 +3,6 @@ package daemon
 import (
 	"errors"
 	"fmt"
-	"log"
 	"strconv"
 	"strings"
 
@@ -135,7 +134,7 @@ func (daemon *Daemon) Containers(config *ContainersConfig) ([]*types.Container, 
 			Names: names[container.ID],
 		}
 
-		log.Print(container.Config.Image)
+		fmt.Printf("CONFIGIMAGE: %v", container.Config.Image)
 		img, err := daemon.Repositories().LookupImage(container.Config.Image)
 		if err != nil {
 			return err
