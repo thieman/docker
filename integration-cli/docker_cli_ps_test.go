@@ -670,14 +670,14 @@ func (s *DockerSuite) TestPsGroupPortRange(c *check.C) {
 // Test for GitHub issue #12595
 func (s *DockerSuite) TestPsImageIDAfterUpdate(c *check.C) {
 
-	runCmd := exec.Command(dockerBinary, "tag", "busybox:TestPsImageIDAfterUpdate-original", "busybox:latest")
+	runCmd := exec.Command(dockerBinary, "tag", "busybox:latest", "busybox:TestPsImageIDAfterUpdate-original")
 	out, _, err := runCommandWithOutput(runCmd)
 	if err != nil {
 		c.Fatal(out, err)
 	}
 	originalImageID := strings.TrimSpace(out)
 
-	runCmd = exec.Command(dockerBinary, "run", "-d", "busybox:TestPsImageIDAfterUpdate-original", "top")
+	runCmd = exec.Command(dockerBinary, "run", "busybox:TestPsImageIDAfterUpdate-original", "touch newfile")
 	out, _, err = runCommandWithOutput(runCmd)
 	if err != nil {
 		c.Fatal(out, err)
@@ -690,7 +690,7 @@ func (s *DockerSuite) TestPsImageIDAfterUpdate(c *check.C) {
 		c.Fatal(out, err)
 	}
 
-	runCmd = exec.Command(dockerBinary, "tag", "-f", "busybox:TestPsImageIDAfterUpdate-original", "busybox:TestPsImageIDAfterUpdate-changed")
+	runCmd = exec.Command(dockerBinary, "tag", "-f", "busybox:TestPsImageIDAfterUpdate-changed", "busybox:TestPsImageIDAfterUpdate-original")
 	out, _, err = runCommandWithOutput(runCmd)
 	if err != nil {
 		c.Fatal(out, err)
